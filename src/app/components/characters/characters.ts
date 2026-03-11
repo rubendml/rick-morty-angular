@@ -17,12 +17,15 @@ export class Characters implements OnInit {
   constructor(private characterService: CharacterService) {}
 
   ngOnInit(): void {
-
     this.characterService.getCharacters().subscribe({
+      next: (response: any) => {
 
-      next: (data: any) => {
-        console.log("Datos de la API:", data);
-        this.characters = data.results;
+        console.log("Respuesta completa:", response);
+
+        if (response && response.results) {
+          this.characters = response.results;
+        }
+
         this.loading = false;
       },
 
@@ -30,9 +33,6 @@ export class Characters implements OnInit {
         console.error("Error al consumir la API:", error);
         this.loading = false;
       }
-
     });
-
   }
-
 }

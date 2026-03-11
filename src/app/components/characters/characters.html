@@ -5,23 +5,28 @@
     <p class="mb-0">Rubén Darío Monroy León</p>
   </div>
 
+  <!-- Loader -->
   <div *ngIf="loading">
     Cargando personajes...
   </div>
 
-  <div class="row">
+  <!-- Tarjetas -->
+  <div *ngIf="!loading" class="row">
 
     <div class="col-md-3 mb-4" *ngFor="let character of characters">
 
       <div class="card shadow">
+
         <img [src]="character.image" class="card-img-top">
 
         <div class="card-body">
-          <h5>{{character.name}}</h5>
 
-          <p>Status: {{character.status}}</p>
+          <h5>{{ character.name }}</h5>
 
-          <p>Species: {{character.species}}</p>
+          <p>Status: {{ character.status }}</p>
+
+          <p>Species: {{ character.species }}</p>
+
         </div>
 
       </div>
