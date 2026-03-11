@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacterService } from '../../services/character';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-characters',
@@ -15,24 +14,37 @@ export class Characters implements OnInit {
   characters: any[] = [];
   loading = true;
 
-  constructor(private characterService: CharacterService) {}
+  constructor(
+    private characterService: CharacterService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.characterService.getCharacters()
-      .pipe(
-        finalize(() => {
-          // Siempre se ejecuta al terminar (éxito o error)
-          this.loading = false;
-        })
-      )
-      .subscribe({
-        next: (response: any) => {
-          console.log('Respuesta completa:', response);
-          this.characters = response?.results ?? [];
-        },
-        error: (error) => {
-          console.error('Error al consumir la API:', error);
-        }
-      });
+
+    this.characterService.getCharacters().subscribe({
+
+      next: (response: any) => {
+
+        console.log("Respuesta completa:", response);
+
+        this.characters = response.results;
+
+        this.loading = false;
+
+        this.cd.detectChanges();   // 👈 fuerza actualización de la vista
+      },
+
+      error: (error) => {
+
+        console.error("Error al consumir la API:", error);
+
+        this.loading = false;
+
+        this.cd.detectChanges();
+      }
+
+    });
+
   }
+
 }
