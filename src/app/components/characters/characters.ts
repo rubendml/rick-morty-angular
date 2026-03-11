@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgForOf } from '@angular/common';
 import { CharacterService } from '../../services/character';
 
 @Component({
   selector: 'app-characters',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgForOf],
   templateUrl: './characters.html',
   styleUrls: ['./characters.css']
 })
@@ -14,7 +14,7 @@ export class Characters implements OnInit {
   characters: any[] = [];
   loading = true;
 
-  constructor(private characterService: CharacterService) { }
+  constructor(private characterService: CharacterService) {}
 
   ngOnInit(): void {
 
