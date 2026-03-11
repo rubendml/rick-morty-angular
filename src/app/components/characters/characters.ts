@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf, NgForOf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CharacterService } from '../../services/character';
 
 @Component({
   selector: 'app-characters',
   standalone: true,
-  imports: [NgIf, NgForOf],
+  imports: [CommonModule],
   templateUrl: './characters.html',
   styleUrls: ['./characters.css']
 })

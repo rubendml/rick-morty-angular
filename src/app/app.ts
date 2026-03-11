@@ -7,4 +7,4 @@ import { Characters } from './components/characters/characters';
   imports: [Characters],
   template: `<app-characters></app-characters>`
 })
-export class App { }
+export class App {}
