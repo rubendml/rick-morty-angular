@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CharacterService } from '../../services/character';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-characters',
@@ -17,22 +18,21 @@ export class Characters implements OnInit {
   constructor(private characterService: CharacterService) {}
 
   ngOnInit(): void {
-    this.characterService.getCharacters().subscribe({
-      next: (response: any) => {
-
-        console.log("Respuesta completa:", response);
-
-        if (response && response.results) {
-          this.characters = response.results;
+    this.characterService.getCharacters()
+      .pipe(
+        finalize(() => {
+          // Siempre se ejecuta al terminar (éxito o error)
+          this.loading = false;
+        })
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log('Respuesta completa:', response);
+          this.characters = response?.results ?? [];
+        },
+        error: (error) => {
+          console.error('Error al consumir la API:', error);
         }
-
-        this.loading = false;
-      },
-
-      error: (error) => {
-        console.error("Error al consumir la API:", error);
-        this.loading = false;
-      }
-    });
+      });
   }
 }
